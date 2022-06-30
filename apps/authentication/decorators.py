@@ -7,7 +7,7 @@ def only_unauthenticated_users(view_func):
     def wrapper_func(request, *args, **kwargs):
         if not request.user.is_authenticated:
             return view_func(request, *args, **kwargs)
-        return redirect(reverse('home'))
+        return redirect(reverse('employee-home'))
 
     return wrapper_func
 

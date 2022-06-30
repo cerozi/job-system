@@ -18,14 +18,17 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1')
 # Application definition
 
 INSTALLED_APPS = [
+    # native built-in apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # local apps
     'apps.home',
-    'apps.authentication'
+    'apps.authentication',
+    'apps.profiles'
 ]
 
 MIDDLEWARE = [
@@ -41,7 +44,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'core.urls'
 LOGIN_REDIRECT_URL = "home"  # Route defined in home/urls.py
-LOGOUT_REDIRECT_URL = "home"  # Route defined in home/urls.py
+LOGOUT_REDIRECT_URL = "login"  # Route defined in authentication/urls.py
 TEMPLATE_DIR = os.path.join(CORE_DIR, "apps/templates")  # ROOT dir for templates
 
 TEMPLATES = [
@@ -119,6 +122,9 @@ STATICFILES_DIRS = (
 )
 
 LOGIN_URL = 'login'
+
+MEDIA_ROOT = os.path.join(CORE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 #############################################################
 #############################################################
