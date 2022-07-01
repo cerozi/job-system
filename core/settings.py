@@ -30,7 +30,8 @@ INSTALLED_APPS = [
     'apps.home',
     'apps.authentication',
     'apps.profiles',
-    'apps.jobs'
+    'apps.jobs',
+    'apps.apply'
 ]
 
 MIDDLEWARE = [
