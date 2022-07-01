@@ -28,7 +28,8 @@ INSTALLED_APPS = [
     # local apps
     'apps.home',
     'apps.authentication',
-    'apps.profiles'
+    'apps.profiles',
+    'apps.jobs'
 ]
 
 MIDDLEWARE = [
