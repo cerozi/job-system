@@ -1,4 +1,5 @@
 {% extends 'layouts/base.html' %}
+{% load humanize %}
 
 {% block title %} Dashboard {% endblock title %}
 
@@ -118,7 +119,7 @@
                   <h3 class="mb-0">VAGAS</h3>
                 </div>
                 <div class="col text-right">
-                  <a href="#!" class="btn btn-sm btn-primary">CRIAR VAGA</a>
+                  <a href="{% url 'create-job' %}" class="btn btn-sm btn-primary">CRIAR VAGA</a>
                 </div>
               </div>
             </div>
@@ -131,78 +132,34 @@
                     <th scope="col">Data</th>
                     <th scope="col">Candidatos</th>
                     <th scope="col">Editar vaga</th>
+                    <th scope="col">Encerrar vaga</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
+                    {% for job in jobs %}
                     <th scope="row">
-                      /argon/
+                      {{job.title}}
                     </th>
                     <td>
-                      4,569
+                      {{job.created|naturaltime}}
                     </td>
                     <td>
-                      340
+                      0
                     </td>
                     <td>
-                      <i class="fas fa-arrow-up text-success mr-3"></i> 46,53%
+                      <a href="{% url 'update-job' job.pk %}" class="btn btn-secondary">Editar</a>
                     </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      /argon/index.html
+                    <td>
+                      <form action="{% url 'close-job' job.pk %}" method="POST"> {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Encerrar</a>
+                      </form>
+                    </td>
+                    {% empty %}
+                    <th colspan="4">
+                      <center>Nenhuma vaga registrada.</center>
                     </th>
-                    <td>
-                      3,985
-                    </td>
-                    <td>
-                      319
-                    </td>
-                    <td>
-                      <i class="fas fa-arrow-down text-warning mr-3"></i> 46,53%
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      /argon/charts.html
-                    </th>
-                    <td>
-                      3,513
-                    </td>
-                    <td>
-                      294
-                    </td>
-                    <td>
-                      <i class="fas fa-arrow-down text-warning mr-3"></i> 36,49%
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      /argon/tables.html
-                    </th>
-                    <td>
-                      2,050
-                    </td>
-                    <td>
-                      147
-                    </td>
-                    <td>
-                      <i class="fas fa-arrow-up text-success mr-3"></i> 50,87%
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      /argon/profile.html
-                    </th>
-                    <td>
-                      1,795
-                    </td>
-                    <td>
-                      190
-                    </td>
-                    <td>
-                      <i class="fas fa-arrow-down text-danger mr-3"></i> 46,53%
-                    </td>
+                    {% endfor %}
                   </tr>
                 </tbody>
               </table>
