@@ -25,3 +25,7 @@ class Job(models.Model):
     def get_company_active_jobs(user):
         company_obj = Company.objects.get(user=user)
         return Job.objects.filter(company=company_obj, closed=False)
+
+    def get_company_all_jobs(user):
+        company_obj = Company.objects.get(user=user)
+        return Job.objects.filter(company=company_obj)

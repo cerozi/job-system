@@ -1,5 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load humanize %}
+{% load jobs_dashboard_tags %}
 
 {% block title %} Dashboard {% endblock title %}
 
@@ -34,7 +35,7 @@
                   <div class="row">
                     <div class="col">
                       <h5 class="card-title text-uppercase text-muted mb-0">Vagas Criadas</h5>
-                      <span class="h2 font-weight-bold mb-0">350,897</span>
+                      <span class="h2 font-weight-bold mb-0">{% get_total_jobs request.user %}</span>
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
@@ -52,7 +53,7 @@
                   <div class="row">
                     <div class="col">
                       <h5 class="card-title text-uppercase text-muted mb-0">Vagas Abertas</h5>
-                      <span class="h2 font-weight-bold mb-0">2,356</span>
+                      <span class="h2 font-weight-bold mb-0">{% get_total_open_jobs request.user %}</span>
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
@@ -70,7 +71,7 @@
                   <div class="row">
                     <div class="col">
                       <h5 class="card-title text-uppercase text-muted mb-0">Vagas Encerradas</h5>
-                      <span class="h2 font-weight-bold mb-0">924</span>
+                      <span class="h2 font-weight-bold mb-0">{% get_total_closed_jobs request.user %}</span>
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
@@ -136,8 +137,8 @@
                   </tr>
                 </thead>
                 <tbody>
+                  {% for job in jobs %}
                   <tr>
-                    {% for job in jobs %}
                     <th scope="row">
                       {{job.title}}
                     </th>
@@ -155,12 +156,14 @@
                         <button type="submit" class="btn btn-danger">Encerrar</a>
                       </form>
                     </td>
-                    {% empty %}
+                  </tr>
+                  {% empty %}
+                  <tr>
                     <th colspan="4">
                       <center>Nenhuma vaga registrada.</center>
                     </th>
-                    {% endfor %}
                   </tr>
+                  {% endfor %}
                 </tbody>
               </table>
             </div>

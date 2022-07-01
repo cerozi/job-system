@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from .forms import JobCreateForm
 from apps.profiles.models import Company
-from apps.authentication.decorators import only_company_users
+from apps.authentication.decorators import only_company_users, only_employee_users
 from .models import Job
+from django.contrib.auth.decorators import login_required
 
+@login_required
 @only_company_users
 def job_create(request):
     form = JobCreateForm(request.POST or None)
@@ -17,6 +19,7 @@ def job_create(request):
 
     return render(request, 'home/job_form.html', {"form": form})
 
+@login_required
 @only_company_users
 def job_update(request, pk):
     company_obj = Company.objects.get(user=request.user)
@@ -33,6 +36,7 @@ def job_update(request, pk):
 
     return render(request, 'home/job_form.html', {"form": form})
 
+@login_required
 @only_company_users
 def job_close(request, pk):
     company_obj = Company.objects.get(user=request.user)
@@ -47,3 +51,15 @@ def job_close(request, pk):
 
     return redirect(reverse('company-home'))
 
+@login_required
+@only_company_users
+def total_company_jobs(request):
+    from apps.jobs.models import Job
+    jobs = Job.get_company_all_jobs(user=request.user)
+    return render(request, 'home/company_jobs.html', {"jobs": jobs})
+
+@login_required
+@only_employee_users
+def total_jobs(request):
+    jobs = Job.objects.all()
+    return render(request, 'home/all_jobs.html', {"jobs": jobs})
