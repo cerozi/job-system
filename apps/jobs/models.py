@@ -15,7 +15,7 @@ class Job(models.Model):
     salary = models.CharField(max_length=3, choices=SALARY_CHOICES)
     description = models.TextField()
     scholarship = models.CharField(max_length=1, choices=Employee.SCHOLARSHIP_CHOICES)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
 
     def __str__(self) -> str:
         return f'{self.title} - {self.company}'
