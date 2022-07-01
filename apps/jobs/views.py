@@ -33,7 +33,7 @@ def job_update(request, pk):
 
     return render(request, 'home/job_form.html', {"form": form})
 
-
+@only_company_users
 def job_close(request, pk):
     company_obj = Company.objects.get(user=request.user)
     job_qs = Job.objects.filter(pk=pk, company=company_obj)
