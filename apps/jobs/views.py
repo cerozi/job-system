@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from .forms import JobCreateForm
-from apps.profiles.models import Company
+from apps.profiles.models import Company, Employee
 from apps.authentication.decorators import only_company_users, only_employee_users
 from .models import Job
 from django.contrib.auth.decorators import login_required
+from apps.apply.models import Apply
 
 @login_required
 @only_company_users
@@ -62,4 +63,8 @@ def total_company_jobs(request):
 @only_employee_users
 def total_jobs(request):
     jobs = Job.objects.all()
-    return render(request, 'home/all_jobs.html', {"jobs": jobs})
+    employee_obj = Employee.objects.get(user=request.user)
+    user_applications = Apply.objects.filter(employee=employee_obj)
+    user_applications_job = [application.job for application in user_applications]
+
+    return render(request, 'home/all_jobs.html', {"jobs": jobs, "user_applications_job":user_applications_job})

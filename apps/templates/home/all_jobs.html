@@ -56,11 +56,15 @@
                   <td class="budget">
                     {{job.created|naturaltime}}
                   </td>
-                  <td>
-                    <form action="" method="POST">
-                      <button type="submit" class="btn btn-success">🗸</button>
-                    </form>
-                  </td>
+                  {% if job in user_applications_job %}
+                    <td>
+                      <span>Você já se candidatou para essa vaga.</span>
+                    </td>
+                  {% else %}
+                    <td>
+                      <a href="{% url 'apply' job.pk %}" class="btn btn-success">🗸</a>
+                    </td>
+                  {% endif %}
                 </tr>
                 {% empty %}
                 <th colspan="4">
