@@ -39,6 +39,17 @@ def job_update(request, pk):
 
 @login_required
 @only_company_users
+def job_delete(request, pk):
+    if request.method == 'POST':
+        company_obj = Company.objects.get(user=request.user)
+        job_qs = Job.objects.filter(pk=pk, company=company_obj, closed=True)
+        if job_qs.exists():
+            job_qs[0].delete()
+
+    return redirect(reverse('company-jobs'))
+
+@login_required
+@only_company_users
 def job_close(request, pk):
     company_obj = Company.objects.get(user=request.user)
     job_qs = Job.objects.filter(pk=pk, company=company_obj)
@@ -51,6 +62,21 @@ def job_close(request, pk):
         job_obj.save()
 
     return redirect(reverse('company-home'))
+
+@login_required
+@only_company_users
+def job_open(request, pk):
+    if request.method == 'POST':
+        company_obj = Company.objects.get(user=request.user)
+        job_qs = Job.objects.filter(pk=pk, company=company_obj, closed=True)
+        if not job_qs.exists():
+            return redirect(reverse('company-home'))
+
+        job = job_qs[0]
+        job.closed = False
+        job.save()
+
+    return redirect(reverse('company-jobs'))
 
 @login_required
 @only_company_users

@@ -4,7 +4,7 @@ from apps.apply.models import Apply
 from .forms import ApplyForm
 from django.urls import reverse
 from apps.jobs.models import Job
-from apps.profiles.models import Employee
+from apps.profiles.models import Company, Employee
 from apps.authentication.decorators import only_company_users, only_employee_users
 from django.contrib.auth.decorators import login_required
 
@@ -70,7 +70,8 @@ def get_all_applications(request):
 @login_required
 @only_company_users
 def get_job_applications(request, pk):
-    job_qs = Job.objects.filter(pk=pk, closed=False)
+    company_obj = Company.objects.get(user=request.user)
+    job_qs = Job.objects.filter(pk=pk, company=company_obj)
     if not job_qs.exists():
         return redirect(reverse('company-home'))
 

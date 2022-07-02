@@ -1,5 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load humanize %}
+{% load applications_tag %}
 
 {% block title %} Tables {% endblock title %}
 
@@ -50,14 +51,26 @@
                 {% for job in jobs %}
                 <tr>
                   <th scope="row">
-                    {{job.title}}
+                    <a href="{% url 'job-applications' job.pk %}">{{job.title}}</a>
                   </th>
                   <td class="budget">
                     {{job.created|naturaltime}}
                   </td>
                   <td>
-                    0
+                    {% get_job_applications_count job %}
                   </td>
+                  {% if job.closed %}
+                  <td colspan="2">
+                    <form action="{% url 'open-job' job.pk %}" method="POST"> {% csrf_token %}
+                        <button type="submit" class="btn btn-success">A vaga foi encerrada. Deseja reabri-lá?</button>
+                    </form>
+                  </td>
+                  <td> 
+                    <form action="{% url 'delete-job' job.pk %}" method="POST"> {% csrf_token %}
+                      <button type="submit" class="btn btn-danger">Excluir vaga permanentemente. </button>
+                    </form>
+                  </td>
+                  {% else %}
                   <td>
                     <a href="{% url 'update-job' job.pk %}" class="btn btn-secondary">Editar</a>
                   </td>
@@ -66,6 +79,7 @@
                       <button type="submit" class="btn btn-danger">Encerrar</a>
                     </form>
                   </td>
+                  {% endif %}
                 </tr>
                 {% empty %}
                 <th colspan="4">

@@ -17,7 +17,7 @@ def get_company_applications_count(user):
 
 @register.simple_tag
 def get_job_applications_count(job):
-    return Apply.objects.filter(job=job, job__closed=False).count()
+    return Apply.objects.filter(job=job).count()
 
 
 @register.simple_tag

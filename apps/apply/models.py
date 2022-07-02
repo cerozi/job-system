@@ -18,5 +18,5 @@ class Apply(models.Model):
 
     def get_all_employee_applications(user):
         employee = Employee.objects.get(user=user)
-        applications = Apply.objects.filter(employee=employee)
+        applications = Apply.objects.filter(employee=employee, job__closed=False)
         return applications
