@@ -14,5 +14,6 @@ def company_home(request):
 @login_required
 @only_employee_users
 def employee_home(request):
-    applications = Apply.get_all_employee_applications(user=request.user)
-    return render(request, 'home/employee_home.html', {"applications": applications})
+    applications = Apply.get_all_employee_applications(user=request.user)[:5]
+    jobs = Job.objects.all().order_by('-created')[:5]
+    return render(request, 'home/employee_home.html', {"applications": applications, "jobs": jobs})

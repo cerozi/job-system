@@ -59,3 +59,10 @@ def delete_apply(request, pk):
 
 
     return redirect(reverse('employee-home'))
+
+@login_required
+@only_employee_users
+def get_all_applications(request):
+    employee_obj = Employee.objects.get(user=request.user)
+    user_applications = Apply.objects.filter(employee=employee_obj)
+    return render(request, 'home/employee_applications.html', {"applications": user_applications})
