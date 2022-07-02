@@ -62,7 +62,7 @@ def total_company_jobs(request):
 @login_required
 @only_employee_users
 def total_jobs(request):
-    jobs = Job.objects.all()
+    jobs = Job.objects.filter(closed=False)
     employee_obj = Employee.objects.get(user=request.user)
     user_applications = Apply.objects.filter(employee=employee_obj)
     user_applications_job = [application.job for application in user_applications]
