@@ -1,0 +1,75 @@
+{% extends 'layouts/base.html' %}
+{% load humanize %}
+{% load jobs_dashboard_tags %}
+{% load applications_tag %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header bg-primary pb-6">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <h6 class="h2 text-white d-inline-block mb-0">Resultados para vagas de: {{ job_title }}</h6>
+            </div>
+          </div>
+          <!-- Card stats -->
+          {% for job in job_qs %}
+          <div class="row">
+            <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">{{job.company.name}}</h5>
+                      <span class="h2 font-weight-bold mb-0">
+                        {% if not request.user.is_company %}
+                          {% if request.user.employee not in job.get_job_all_employee_applications %}
+                            <a href="{% url 'apply' job.pk %}">{{job.title}}</a>
+                          {% else %}
+                            {{job.title}}
+                            <p class="h6 text-black d-inline-block mb-0"> (aplicado)</p>
+                          {% endif %}
+                        {% else %}
+                          {{job.title}}
+                        {% endif %}
+                      </span>
+                    </div>
+                  </div>
+                  <p class="mt-1 mb-0 text-sm">
+                    <span class="text-nowrap">Candidatos: {% get_job_applications_count job %}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <p class="h4 text-white d-inline-block mb-0">Nenhuma vaga encontrada. :/</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Page content -->
+
+
+      {% include "includes/footer.html" %}
+
+    </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+  <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
+  <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+
+{% endblock javascripts %}

@@ -88,9 +88,15 @@ def total_company_jobs(request):
 @login_required
 @only_employee_users
 def total_jobs(request):
-    jobs = Job.objects.filter(closed=False)
+    jobs = Job.objects.filter(closed=False).order_by('-created')
     employee_obj = Employee.objects.get(user=request.user)
     user_applications = Apply.objects.filter(employee=employee_obj)
     user_applications_job = [application.job for application in user_applications]
 
     return render(request, 'home/all_jobs.html', {"jobs": jobs, "user_applications_job":user_applications_job})
+
+@login_required
+def search_job(request):
+    job_title = request.GET.get('job_title')
+    job_qs = Job.objects.filter(title__contains=job_title)
+    return render(request, 'home/search_job.html', {"job_title": job_title, "job_qs": job_qs})

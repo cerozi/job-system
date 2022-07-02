@@ -29,3 +29,7 @@ class Job(models.Model):
     def get_company_all_jobs(user):
         company_obj = Company.objects.get(user=user)
         return Job.objects.filter(company=company_obj)
+
+    def get_job_all_employee_applications(self):
+        employee_list = [application.employee for application in self.apply_set.all()]
+        return employee_list
