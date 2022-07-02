@@ -135,25 +135,25 @@
                 </thead>
                 <tbody>
                   {% for job in jobs %}
-                  <tr>
-                    <th scope="row">
-                      {{job.title}}
-                    </th>
-                    <td>
-                      {{job.created|naturaltime}}
-                    </td>
-                    <td>
-                      {% get_job_applications_count job %}
-                    </td>
-                    <td>
-                      <a href="{% url 'update-job' job.pk %}" class="btn btn-secondary">Editar</a>
-                    </td>
-                    <td>
-                      <form action="{% url 'close-job' job.pk %}" method="POST"> {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Encerrar</a>
-                      </form>
-                    </td>
-                  </tr>
+                    <tr>
+                      <th scope="row">
+                        <a href="{% url 'job-applications' job.pk %}">{{job.title}}</a>
+                      </th>
+                      <td>
+                        {{job.created|naturaltime}}
+                      </td>
+                      <td>
+                        {% get_job_applications_count job %}
+                      </td>
+                      <td>
+                        <a href="{% url 'update-job' job.pk %}" class="btn btn-secondary">Editar</a>
+                      </td>
+                      <td>
+                        <form action="{% url 'close-job' job.pk %}" method="POST"> {% csrf_token %}
+                          <button type="submit" class="btn btn-danger">Encerrar</a>
+                        </form>
+                      </td>
+                    </tr>
                   {% empty %}
                   <tr>
                     <th colspan="4">

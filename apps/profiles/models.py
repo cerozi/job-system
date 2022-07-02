@@ -20,12 +20,12 @@ class Company(models.Model):
 
 class Employee(models.Model):
     SCHOLARSHIP_CHOICES = (
-        ('F', 'Ensino Fundamental'),
-        ('M', 'Ensino Médio'),
-        ('T', 'Tecnólogo'),
-        ('S', 'Ensino Superior'),
-        ('M', 'Mestrado'),
-        ('D', 'Doutorado')
+        ('0', 'Ensino Fundamental'),
+        ('1', 'Ensino Médio'),
+        ('2', 'Tecnólogo'),
+        ('3', 'Ensino Superior'),
+        ('4', 'Mestrado'),
+        ('5', 'Doutorado')
     )
 
     ROLE_CHOICES = (

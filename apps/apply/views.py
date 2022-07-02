@@ -5,7 +5,7 @@ from .forms import ApplyForm
 from django.urls import reverse
 from apps.jobs.models import Job
 from apps.profiles.models import Employee
-from apps.authentication.decorators import only_employee_users
+from apps.authentication.decorators import only_company_users, only_employee_users
 from django.contrib.auth.decorators import login_required
 
 @login_required
@@ -66,3 +66,14 @@ def get_all_applications(request):
     employee_obj = Employee.objects.get(user=request.user)
     user_applications = Apply.objects.filter(employee=employee_obj, job__closed=False)
     return render(request, 'home/employee_applications.html', {"applications": user_applications})
+
+@login_required
+@only_company_users
+def get_job_applications(request, pk):
+    job_qs = Job.objects.filter(pk=pk, closed=False)
+    if not job_qs.exists():
+        return redirect(reverse('company-home'))
+
+    job = job_qs[0]
+    applications = Apply.objects.filter(job=job)
+    return render(request, 'home/job_applications.html', {"applications": applications, "job": job})
