@@ -6,6 +6,7 @@ from apps.authentication.decorators import only_company_users, only_employee_use
 from .models import Job
 from django.contrib.auth.decorators import login_required
 from apps.apply.models import Apply
+from django.core.paginator import Paginator
 
 @login_required
 @only_company_users
@@ -82,18 +83,27 @@ def job_open(request, pk):
 @only_company_users
 def total_company_jobs(request):
     from apps.jobs.models import Job
-    jobs = Job.get_company_all_jobs(user=request.user)
-    return render(request, 'home/company_jobs.html', {"jobs": jobs})
+    job_qs = Job.get_company_all_jobs(user=request.user)
+
+    job_paginator = Paginator(job_qs, 5)
+    page = request.GET.get('page')
+    jobs = job_paginator.get_page(page)
+
+    return render(request, 'home/company_jobs.html', {"jobs": jobs, "job_paginator": job_paginator})
 
 @login_required
 @only_employee_users
 def total_jobs(request):
-    jobs = Job.objects.filter(closed=False).order_by('-created')
+    job_qs = Job.objects.filter(closed=False).order_by('-created')
     employee_obj = Employee.objects.get(user=request.user)
     user_applications = Apply.objects.filter(employee=employee_obj)
     user_applications_job = [application.job for application in user_applications]
 
-    return render(request, 'home/all_jobs.html', {"jobs": jobs, "user_applications_job":user_applications_job})
+    job_paginator = Paginator(job_qs, 5)
+    page = request.GET.get('page')
+    jobs = job_paginator.get_page(page)
+
+    return render(request, 'home/all_jobs.html', {"jobs": jobs, "user_applications_job":user_applications_job, "job_paginator": job_paginator})
 
 @login_required
 def search_job(request):

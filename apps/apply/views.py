@@ -8,6 +8,8 @@ from apps.profiles.models import Company, Employee
 from apps.authentication.decorators import only_company_users, only_employee_users
 from django.contrib.auth.decorators import login_required
 
+from django.core.paginator import Paginator
+
 @login_required
 @only_employee_users
 def create_apply(request, pk):
@@ -64,8 +66,13 @@ def delete_apply(request, pk):
 @only_employee_users
 def get_all_applications(request):
     employee_obj = Employee.objects.get(user=request.user)
-    user_applications = Apply.objects.filter(employee=employee_obj, job__closed=False)
-    return render(request, 'home/employee_applications.html', {"applications": user_applications})
+    user_applications_qs = Apply.objects.filter(employee=employee_obj, job__closed=False)
+
+    user_paginator = Paginator(user_applications_qs, 5)
+    page = request.GET.get('page')
+    user_applications = user_paginator.get_page(page)
+
+    return render(request, 'home/employee_applications.html', {"applications": user_applications, "user_paginator": user_paginator})
 
 @login_required
 @only_company_users
