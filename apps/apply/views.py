@@ -83,5 +83,13 @@ def get_job_applications(request, pk):
         return redirect(reverse('company-home'))
 
     job = job_qs[0]
-    applications = Apply.objects.filter(job=job)
-    return render(request, 'home/job_applications.html', {"applications": applications, "job": job})
+    applications_qs = Apply.objects.filter(job=job)
+
+    applications_paginator = Paginator(applications_qs, 5)
+    page = request.GET.get('page')
+    applications = applications_paginator.get_page(page)
+
+
+    return render(request, 'home/job_applications.html', {"applications": applications, 
+                                                        "job": job, 
+                                                        'applications_paginator': applications_paginator})
