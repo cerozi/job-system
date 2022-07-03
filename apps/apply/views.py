@@ -7,7 +7,7 @@ from apps.jobs.models import Job
 from apps.profiles.models import Company, Employee
 from apps.authentication.decorators import only_company_users, only_employee_users
 from django.contrib.auth.decorators import login_required
-
+from django.contrib import messages
 from django.core.paginator import Paginator
 
 @login_required
@@ -22,6 +22,10 @@ def create_apply(request, pk):
         return redirect(reverse('employee-home'))
 
     if request.method == 'POST':
+        if not employee.check_null_fields():
+            messages.error(request, 'Antes de se candidatar, você precisa preencher seu perfil. ')
+            return redirect(reverse('apply', args=(job.pk, )))
+
         if form.is_valid():
 
             form.instance.job = job

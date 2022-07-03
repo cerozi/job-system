@@ -49,5 +49,11 @@ class Employee(models.Model):
     def __str__(self) -> str:
         return f'{self.name}'
 
+    def check_null_fields(self):
+        if self.name and self.tel and self.scholarship and self.role:
+            return True
+        
+        return None
+
     class Meta:
         verbose_name_plural = 'Employee'
