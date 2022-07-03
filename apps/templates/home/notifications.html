@@ -1,0 +1,54 @@
+{% load humanize %}
+
+<!-- Dropdown header -->
+<div class="px-3 py-3">
+    <h6 class="text-sm text-muted m-0">Você tem <strong class="text-primary">{{notifications.count}}</strong> notificações.</h6>
+</div>
+<!-- List group -->
+<div class="list-group list-group-flush">
+    {% for notification in notifications %}
+    {% if notification.from_user.is_company %}
+    <a href="{% url 'apply' notification.job.pk %}" class="list-group-item list-group-item-action">
+    {% else %}
+    <a href="{% url 'job-applications' notification.job.pk %}" class="list-group-item list-group-item-action">
+    {% endif %}
+    <div class="row align-items-center">
+        {% if not notification.from_user.is_company %}
+        <div class="col-auto">
+        <!-- Avatar -->
+        <img alt="Image placeholder" src="{{ notification.from_user.employee.photo.url }}" class="avatar rounded-circle">
+        </div>
+        {% endif %}
+        <div class="col ml--2">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+            {% if notification.from_user.is_company %}
+            <h4 class="mb-0 text-sm ml-4">{{notification.from_user.company.name}}</h4>
+            {% else %}
+            <h4 class="mb-0 text-sm">{{notification.from_user.employee.name}}</h4>
+            {% endif %}
+            </div>
+            <div class="text-right text-muted">
+            <small>{{notification.created|naturaltime}}</small>
+            </div>
+        </div>
+        {% if notification.from_user.is_company %}
+        <p class="text-sm mb-0 ml-4">Criou uma nova vaga: <strong>{{ notification.job.title }}</strong>. Aplique!</p>
+        {% else %}
+        <p class="text-sm mb-0">Se candidatou para vaga: <strong>{{ notification.job.title }}</strong>!</p>
+        {% endif %}
+        </div>
+    </div>
+    </a>
+    {% empty %}
+    <div class="row align-items-center">
+        <div class="col ml--2">
+        <p class="text-sm mb-0 ml-4">Nenhuma notificação nova. </p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<!-- View all -->
+<form action="{% url 'delete-notifications' %}" method="POST" id="myForm"> {% csrf_token %} 
+    <button type="submit" class="dropdown-item text-center text-primary font-weight-bold py-3">Limpar notificações</a>
+</form>

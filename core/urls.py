@@ -7,5 +7,6 @@ urlpatterns = [
     path('auth/', include('apps.authentication.urls')),
     path('', include('apps.profiles.urls')),
     path('', include('apps.jobs.urls')),
-    path('', include('apps.apply.urls'))
+    path('', include('apps.apply.urls')),
+    path('', include('apps.notifications.urls')),
 ]
