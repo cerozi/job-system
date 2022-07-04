@@ -6,7 +6,6 @@ from apps.authentication.models import User
 def create_profile(sender, instance, created, **kwargs):
     if created:
         if instance.is_company or instance.is_staff:
-            print('signals called. ')
             instance.is_company = True
             instance.save()
             Company.objects.create(user=instance)

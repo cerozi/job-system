@@ -54,6 +54,16 @@ class Employee(models.Model):
             return True
         
         return None
+    
+    def set_fields_to_test(self):
+        self.name = 'test'
+        self.age = 20
+        self.tel = "11995588963"
+        self.address = 'Rua do Limoeiro, 343'
+        self.scholarship = "3"
+        self.role = "B"
+        self.about_me = 'test'
+        self.save()
 
     class Meta:
         verbose_name_plural = 'Employee'

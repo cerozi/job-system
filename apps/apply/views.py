@@ -10,12 +10,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
 
+
 @login_required
 @only_employee_users
 def create_apply(request, pk):
     form = ApplyForm(request.POST or None)
     job = Job.objects.get(pk=pk)
     employee = Employee.objects.get(user=request.user)
+    status_code = 200
 
     apply_qs = Apply.objects.filter(job=job, employee=employee)
     if apply_qs.exists():
@@ -33,14 +35,17 @@ def create_apply(request, pk):
             form.save()
 
             return redirect(reverse('employee-home'))
+        
+        status_code = 422
 
-    return render(request, 'home/apply.html', {"form": form})
+    return render(request, 'home/apply.html', {"form": form}, status=status_code)
 
 @login_required
 @only_employee_users
 def update_apply(request, pk):
     employee = Employee.objects.get(user=request.user)
     application_qs = Apply.objects.filter(pk=pk, employee=employee)
+    status_code = 200
     if not application_qs.exists():
         return redirect(reverse('employee-home'))
 
@@ -50,8 +55,10 @@ def update_apply(request, pk):
         if form.is_valid():
             form.save()
             return redirect(reverse('update-apply', args=(pk, )))
+        
+        status_code = 422
 
-    return render(request, 'home/apply.html', {"form": form})
+    return render(request, 'home/apply.html', {"form": form}, status=status_code)
 
 @login_required
 @only_employee_users

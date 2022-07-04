@@ -16,7 +16,8 @@ class Apply(models.Model):
     def __str__(self) -> str:
         return f'{self.job} - {self.employee}'
 
-    def get_all_employee_applications(user):
+    @classmethod
+    def get_all_employee_applications(cls, user):
         employee = Employee.objects.get(user=user)
-        applications = Apply.objects.filter(employee=employee, job__closed=False)
+        applications = cls.objects.filter(employee=employee, job__closed=False)
         return applications
