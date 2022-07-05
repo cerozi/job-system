@@ -22,13 +22,15 @@ class Job(models.Model):
     def __str__(self) -> str:
         return f'{self.title} - {self.company}'
 
-    def get_company_active_jobs(user):
+    @classmethod
+    def get_company_active_jobs(cls, user):
         company_obj = Company.objects.get(user=user)
-        return Job.objects.filter(company=company_obj, closed=False)
+        return cls.objects.filter(company=company_obj, closed=False)
 
-    def get_company_all_jobs(user):
+    @classmethod
+    def get_company_all_jobs(cls, user):
         company_obj = Company.objects.get(user=user)
-        return Job.objects.filter(company=company_obj)
+        return cls.objects.filter(company=company_obj)
 
     def get_job_all_employee_applications(self):
         employee_list = [application.employee for application in self.apply_set.all()]
