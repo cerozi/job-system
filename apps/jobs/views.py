@@ -12,20 +12,25 @@ from django.core.paginator import Paginator
 @only_company_users
 def job_create(request):
     form = JobCreateForm(request.POST or None)
+    status_code = 200
     if request.method == 'POST':
         if form.is_valid():
             company = Company.objects.get(user=request.user)
             form.instance.company = company
             form.save()
             return redirect(reverse('company-home'))
+        
+        status_code = 422
 
-    return render(request, 'home/job_form.html', {"form": form})
+    return render(request, 'home/job_form.html', {"form": form}, status=status_code)
 
 @login_required
 @only_company_users
 def job_update(request, pk):
     company_obj = Company.objects.get(user=request.user)
     job_qs = Job.objects.filter(pk=pk, company=company_obj)
+    status_code = 200
+
     if not job_qs.exists():
         return redirect(reverse('company-home'))
 
@@ -36,7 +41,10 @@ def job_update(request, pk):
             form.save()
             return redirect(reverse('company-home'))
 
-    return render(request, 'home/job_form.html', {"form": form})
+        print(form.errors)
+        status_code = 422
+
+    return render(request, 'home/job_form.html', {"form": form}, status=status_code)
 
 @login_required
 @only_company_users
@@ -52,13 +60,13 @@ def job_delete(request, pk):
 @login_required
 @only_company_users
 def job_close(request, pk):
-    company_obj = Company.objects.get(user=request.user)
-    job_qs = Job.objects.filter(pk=pk, company=company_obj)
-    if not job_qs.exists():
-        return redirect(reverse('company-home'))
-
-    job_obj = job_qs[0]
     if request.method == 'POST':
+        company_obj = Company.objects.get(user=request.user)
+        job_qs = Job.objects.filter(pk=pk, company=company_obj)
+        if not job_qs.exists():
+            return redirect(reverse('company-home'))
+
+        job_obj = job_qs[0]
         job_obj.closed = True
         job_obj.save()
 
