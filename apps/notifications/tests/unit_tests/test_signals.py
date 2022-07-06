@@ -1,7 +1,6 @@
 from django.test import TestCase
 from apps.authentication.models import User
 from apps.jobs.models import Job
-from apps.notifications.models import Notification
 from apps.apply.models import Apply
 
 class NotificationsSignalsTests(TestCase):

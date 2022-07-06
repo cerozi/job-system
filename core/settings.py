@@ -18,6 +18,9 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1')
 # Application definition
 
 INSTALLED_APPS = [
+    # 3rd party apps
+    'rest_framework',
+
     # native built-in apps
     'django.contrib.admin',
     'django.contrib.auth',

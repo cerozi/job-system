@@ -7,6 +7,7 @@ class Apply(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     salary = models.CharField(max_length=3, choices=Job.SALARY_CHOICES)
+    created = models.DateTimeField(auto_now_add=True)
     experience = models.TextField()
 
     class Meta:
