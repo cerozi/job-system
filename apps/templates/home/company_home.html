@@ -110,6 +110,45 @@
     <div class="container-fluid mt--6">
       <div class="row">
         <div class="col-xl-8">
+          <div class="card bg-default">
+            <div class="card-header bg-transparent">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h6 class="text-light text-uppercase ls-1 mb-1">Estatísticas</h6>
+                  <h5 class="h3 text-white mb-0">Vagas criadas</h5>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- Chart -->
+              <div class="chart">
+                <!-- Chart wrapper -->
+                <canvas id="chart-dark" class="chart-canvas"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4">
+          <div class="card">
+            <div class="card-header bg-transparent">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h6 class="text-uppercase text-muted ls-1 mb-1">Estatísticas</h6>
+                  <h5 class="h3 mb-0">Candidaturas</h5>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- Chart -->
+              <div class="chart">
+                <canvas id="myChart" class="chart-canvas" height="300"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-8">
           <div class="card">
             <div class="card-header border-0">
               <div class="row align-items-center">
@@ -166,24 +205,6 @@
             </div>
           </div>
         </div>
-        <div class="col-xl-4">
-          <div class="card">
-            <div class="card-header bg-transparent">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h6 class="text-uppercase text-muted ls-1 mb-1">Estatísticas</h6>
-                  <h5 class="h3 mb-0">Candidaturas</h5>
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-              <!-- Chart -->
-              <div class="chart">
-                <canvas id="myChart" class="chart-canvas" height="300"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -195,10 +216,10 @@
   <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
   <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
   <script>
-    const endpoint = 'http://127.0.0.1:8000/api/applications'
+    const application_endpoint = 'http://127.0.0.1:8000/api/applications'
     $.ajax({
       method: "GET",
-      url: endpoint,
+      url: application_endpoint,
       success: function(data) {
         const labels = [
           'Jan',
@@ -261,6 +282,61 @@
       }
 
     })
+  </script>
+  <script>
+    const job_endpoint = 'http://127.0.0.1:8000/api/jobs'
+    $.ajax({
+      method: "GET",
+      url: job_endpoint,
+      success: function(data) {
+        const dark_config = {
+          type: 'line',
+          options: {
+            scales: {
+              yAxes: [{
+                gridLines: {
+                  display:false
+                },
+                ticks: {
+                  min: 0,
+                  max: 10,
+                }
+              }]
+            },
+            legend: {
+                  display: false,
+                }
+            },
+            data: {
+              labels: ['Jan',
+              'Fev',
+              'Mar',
+              'Abr',
+              'Mai',
+              'Jun',
+              'Jul',
+              'Ago',
+              'Set',
+              'Out',
+              'Nov',
+              'Dez'],
+              datasets: [{
+                label: 'Vagas',
+                data: data.month_jobs
+              }]
+            }
+          }
+
+        const darkChart = new Chart(
+            document.getElementById('chart-dark'),
+            dark_config
+            );
+          },
+      error: function(error_data) {
+        console.log('error within the received data')
+        console.log(error_data)
+      } })
+
   </script>
 
 {% endblock javascripts %}

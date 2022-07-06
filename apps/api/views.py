@@ -22,3 +22,21 @@ class ApplicationsMonthAV(APIView):
             'month_applications': month_applications
         }
         return Response(data)
+
+class JobsMonthAv(APIView):
+    permission_classes = [built_permissions.IsAuthenticated, IsCompany]
+
+    def get(self, request, *args, **kwargs):
+        company_obj = Company.objects.get(user=self.request.user)
+        company_jobs = company_obj.job_set.all()
+        month_jobs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+        for job in company_jobs:
+            job_month = job.created.strftime('%-m')
+            month_jobs[int(job_month) - 1] += 1
+
+        data = {
+            'month_jobs': month_jobs
+        }
+
+        return Response(data)
