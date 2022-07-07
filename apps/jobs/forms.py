@@ -1,6 +1,10 @@
+# django built-in imports;
 from django import forms
+
+# current app imports;
 from .models import Job
 
+# Custom form for job creation;
 class JobCreateForm(forms.ModelForm):
     class Meta:
         model = Job

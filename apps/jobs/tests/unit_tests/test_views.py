@@ -1,11 +1,15 @@
-from django.test import TestCase
-from django.test.client import Client 
+# other apps imports;
 from apps.authentication.models import User
 from apps.jobs.models import Job
+
+# built-in django imports
+from django.test import TestCase
+from django.test.client import Client
 from django.urls import reverse
 
 
 class JobViewTests(TestCase):
+    ''' Tests all the job controllers. '''
 
     def setUp(self):
         self.client = Client()

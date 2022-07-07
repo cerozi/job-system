@@ -1,10 +1,14 @@
-from django.test import TestCase
+# other apps imports;
+from apps.apply.models import Apply
 from apps.authentication.models import User
 from apps.jobs.models import Job
-from apps.apply.models import Apply
+
+# django built-in imports;
+from django.test import TestCase
 
 
 class JobsModelTests(TestCase):
+    ''' Tests all the job model functions. '''
 
     def setUp(self):
         self.user_company = User.objects.create_user(username='test_company', email='test@gmail.com', 

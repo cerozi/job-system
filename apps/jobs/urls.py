@@ -1,4 +1,7 @@
+ # django built-in imports;
 from django.urls import path
+
+ # current app imports;
 from .views import (job_create, job_update, job_close, 
                     total_jobs, total_company_jobs, job_open, 
                     job_delete, search_job)
