@@ -1,9 +1,11 @@
 from secrets import choice
+# django built-in imports;
 from django.db import models
+
+# other apps imports;
 from apps.authentication.models import User
 from apps.jobs.models import Job
 
-# Create your models here.
 class Notification(models.Model):
     NOTIFICATION_TYPES = (
         ("V", "Vaga"),

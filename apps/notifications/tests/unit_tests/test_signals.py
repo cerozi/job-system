@@ -1,9 +1,13 @@
+# django built-in imports;
 from django.test import TestCase
+
+# other apps imports;
 from apps.authentication.models import User
 from apps.jobs.models import Job
 from apps.apply.models import Apply
 
 class NotificationsSignalsTests(TestCase):
+    ''' Tests the notifications signals. '''
 
     def setUp(self):
         self.user_company = User.objects.create_user(username='test_company', email='test@gmail.com', 

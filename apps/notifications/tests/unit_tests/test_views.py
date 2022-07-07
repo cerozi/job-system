@@ -1,11 +1,16 @@
-from django.test import TestCase
-from django.test.client import Client
+# other apps imports;
 from apps.authentication.models import User
 from apps.jobs.models import Job
 from apps.notifications.models import Notification
+
+# django built-in imports;
+from django.test import TestCase
+from django.test.client import Client
 from django.urls import reverse
 
+
 class NotificationsViewTests(TestCase):
+    ''' Tests the notifications controllers. '''
 
     def setUp(self):
         self.client = Client()
