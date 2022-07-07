@@ -98,7 +98,7 @@ def get_all_applications(request):
 
     # queryset for the user applications;
     employee_obj = Employee.objects.get(user=request.user)
-    user_applications_qs = Apply.objects.filter(employee=employee_obj, job__closed=False)
+    user_applications_qs = Apply.objects.filter(employee=employee_obj, job__closed=False).order_by('-created')
 
     # pagination;
     user_paginator = Paginator(user_applications_qs, 5)
@@ -120,7 +120,7 @@ def get_job_applications(request, pk):
         return redirect(reverse('company-home'))
 
     job = job_qs[0]
-    applications_qs = Apply.objects.filter(job=job)
+    applications_qs = Apply.objects.filter(job=job).order_by('-created')
 
     # pagination;
     applications_paginator = Paginator(applications_qs, 5)

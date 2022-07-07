@@ -25,9 +25,11 @@ class NotificationsViewTests(TestCase):
 
     def test_delete_all_notifications(self):
         notification = Notification.objects.get(job=self.job, to_user=self.user_employee, from_user=self.user_company)
-        self.assertFalse(notification.user_has_seen)
-
+        self.assertIn(notification, Notification.objects.all())
+        self.assertEqual(Notification.objects.all().count(), 1)
+        
         response = self.client.get(reverse('delete-notifications'))
         self.assertEqual(response.status_code, 302)
-        notification.refresh_from_db()
-        self.assertTrue(notification.user_has_seen)
+        self.assertNotIn(notification, Notification.objects.all())
+        self.assertEqual(Notification.objects.all().count(), 0)
+        

@@ -28,5 +28,5 @@ class Apply(models.Model):
         '''
 
         employee = Employee.objects.get(user=user)
-        applications = cls.objects.filter(employee=employee, job__closed=False)
+        applications = cls.objects.filter(employee=employee, job__closed=False).order_by('-created')
         return applications

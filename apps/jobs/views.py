@@ -162,5 +162,5 @@ def search_job(request):
     '''
     
     job_title = request.GET.get('job_title')
-    job_qs = Job.objects.filter(title__contains=job_title)
+    job_qs = Job.objects.filter(title__contains=job_title).order_by('-created')
     return render(request, 'home/search_job.html', {"job_title": job_title, "job_qs": job_qs})

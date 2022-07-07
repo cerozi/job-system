@@ -32,7 +32,7 @@ class Job(models.Model):
         '''
 
         company_obj = Company.objects.get(user=user)
-        return cls.objects.filter(company=company_obj, closed=False)
+        return cls.objects.filter(company=company_obj, closed=False).order_by('-created')
 
     @classmethod
     def get_company_all_jobs(cls, user):
@@ -41,7 +41,7 @@ class Job(models.Model):
         '''
 
         company_obj = Company.objects.get(user=user)
-        return cls.objects.filter(company=company_obj)
+        return cls.objects.filter(company=company_obj).order_by('-created')
 
     def get_job_all_employee_applications(self):
         ''' Returns a list with all the employees the applied to the job object. '''

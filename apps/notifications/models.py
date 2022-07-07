@@ -20,4 +20,4 @@ class Notification(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return f'{self.get_notification_type_display} - {self.from_user}'
+        return f'{self.notification_type}'
