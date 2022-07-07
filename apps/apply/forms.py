@@ -1,4 +1,7 @@
+# django built-in imports;
 from django import forms
+
+# current app imports;
 from .models import Apply
 
 class ApplyForm(forms.ModelForm):

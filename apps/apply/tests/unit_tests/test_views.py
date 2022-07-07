@@ -1,11 +1,13 @@
-from django.test import TestCase
-from django.test.client import Client
+# other apps imports;
+from apps.apply.models import Apply
 from apps.authentication.models import User
 from apps.jobs.models import Job
-from apps.apply.models import Apply
-from django.urls import reverse
 
-from apps.profiles.models import Employee
+
+# built-in django imports;
+from django.test import TestCase
+from django.test.client import Client
+from django.urls import reverse
 
 
 class ApplicationViewTests(TestCase):

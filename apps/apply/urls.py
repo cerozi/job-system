@@ -1,4 +1,7 @@
+# built-in django imports;
 from django.urls import path
+
+# current app imports;
 from .views import create_apply, update_apply, delete_apply, get_all_applications, get_job_applications
 
 urlpatterns = [

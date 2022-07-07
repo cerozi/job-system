@@ -1,11 +1,17 @@
-from django.test import TestCase
+# other apps imports;
+from apps.apply.models import Apply
 from apps.authentication.models import User
 from apps.jobs.models import Job
-from apps.apply.models import Apply
+
+# django built-in imports;
+from django.test import TestCase
+
 
 class ApplicationModelTests(TestCase):
 
     def setUp(self):
+        ''' Setup all the necessary objects to test the model functions. '''
+
         self.user_company = User.objects.create_user(username='test_company', 
         email='test_company@gmail.com', password='userpass123', is_company=True)
         self.user_employee = User.objects.create_user(username='test_employee', 
@@ -18,6 +24,8 @@ class ApplicationModelTests(TestCase):
         salary="a1", experience='test')
 
     def test_get_all_employee_applications(self):
+        ''' Tests model function. '''
+
         applications = Apply.get_all_employee_applications(self.user_employee)
 
         self.assertEqual(len(applications), 1)
