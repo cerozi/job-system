@@ -1,19 +1,28 @@
-from django.shortcuts import redirect, render
-from .forms import CustomUserRegisterForm, CustomUserLoginForm
-from django.urls import reverse
+# django built-in imports;
 from django.contrib import messages
-from django.contrib.auth import authenticate, logout as log_out, login as log_user
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as log_user
+from django.contrib.auth import logout as log_out
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+from django.urls import reverse
+
+
+# current app imports;
 from .decorators import only_unauthenticated_users
+from .forms import CustomUserLoginForm, CustomUserRegisterForm
+
 
 @only_unauthenticated_users
 def register(request):
+    ''' Creates a new user. '''
+
     form = CustomUserRegisterForm()
     status_code = 200
     if request.method == 'POST':
         form = CustomUserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            form.save() # creates a new user object;
             messages.info(request, "Usuário registrado com sucesso. ")
             return redirect(reverse('login'))
         else:
@@ -24,13 +33,17 @@ def register(request):
 
 @only_unauthenticated_users
 def login(request):
+    ''' Logs user. '''
+
     form = CustomUserLoginForm()
     status_code = 200
     if request.method == 'POST':
         form = CustomUserLoginForm(request.POST)
         if form.is_valid():
+            # authenticates the user, if both the email and password are right it returns the user object;
             user = authenticate(request, email=form.cleaned_data['email'], password=form.cleaned_data['password'])
             if user:
+                # logs the user;
                 log_user(request, user)
                 return redirect(reverse('employee-home'))
         
@@ -42,5 +55,7 @@ def login(request):
 
 @login_required
 def logout(request):
+    ''' Logout the user. '''
+
     log_out(request)
     return redirect(reverse('login'))

@@ -1,8 +1,9 @@
+# built-in django imports;
 from django.shortcuts import redirect
 from django.urls import reverse
 
 def only_unauthenticated_users(view_func):
-    """"decorator that allows only unauthenticated users to have access to the controller"""
+    """decorator that allows only unauthenticated users to have access to the controller"""
 
     def wrapper_func(request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -12,7 +13,7 @@ def only_unauthenticated_users(view_func):
     return wrapper_func
 
 def only_company_users(view_func):
-    """"decorator that allows only company users to have access to the controller, 
+    """decorator that allows only company users to have access to the controller, 
     which means that employee users can't access it"""
 
     def wrapper_func(request, *args, **kwargs):
@@ -23,7 +24,7 @@ def only_company_users(view_func):
     return wrapper_func
 
 def only_employee_users(view_func):
-    """"decorator that allows only employee users to have access to the controller, 
+    """decorator that allows only employee users to have access to the controller, 
     which means that company users can't access it"""
 
     def wrapper_func(request, *args, **kwargs):

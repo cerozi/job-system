@@ -1,5 +1,10 @@
+# other apps imports;
+from apps.authentication.forms import (CustomUserLoginForm,
+                                       CustomUserRegisterForm)
+
+# django built-in imports;
 from django.test import TestCase
-from apps.authentication.forms import CustomUserLoginForm, CustomUserRegisterForm
+
 
 class AuthenticationFormsTests(TestCase):
 

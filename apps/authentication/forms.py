@@ -1,8 +1,13 @@
+# django built-in imports;
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+
+# current app imports;
 from .models import User
 
 class CustomUserRegisterForm(UserCreationForm):
+    # Custom form for user register;
+
     username = forms.CharField(max_length=20, widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Username"}))
     email = forms.EmailField(widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Email"}))
     password1 = forms.CharField(
@@ -23,6 +28,8 @@ class CustomUserRegisterForm(UserCreationForm):
 
 
 class CustomUserLoginForm(forms.Form):
+    # Custom form for user login;
+
     email = forms.EmailField(widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Email"}))
     password = forms.CharField(
         label=("Password"),
