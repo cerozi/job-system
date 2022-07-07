@@ -1,9 +1,13 @@
+# other apps imports;
+from apps.authentication.models import User
+# django built-in imports;
 from django.test import TestCase
 from django.test.client import Client
-from apps.authentication.models import User
 from django.urls import reverse
 
+
 class ProfilesViewTests(TestCase):
+    ''' Tests the profiles app controllers. '''
 
     def setUp(self):
         self.client = Client()

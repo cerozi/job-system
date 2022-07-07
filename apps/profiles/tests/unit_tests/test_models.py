@@ -1,7 +1,10 @@
+# django built-in imports;
 from django.test import TestCase
+# other apps imports;
 from apps.authentication.models import User
 
 class ProfilesModelTests(TestCase):
+    ''' Tests the profiles model functions. '''
 
     def setUp(self):
         self.user_employee = User.objects.create_user(username='test_employee', 

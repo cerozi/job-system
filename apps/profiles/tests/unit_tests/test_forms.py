@@ -1,7 +1,11 @@
+# django built-in imports;
 from django.test import TestCase
+
+# other apps imports;
 from apps.profiles.forms import EmployeeProfileForm, CompanyProfileForm
 
 class ProfileFormsTests(TestCase):
+    ''' Tests the profiles forms. '''
 
     def test_employee_form_with_valid_data(self):
         form = EmployeeProfileForm(data={

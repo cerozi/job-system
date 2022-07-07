@@ -1,5 +1,8 @@
+# django built-in imports;
 from django.db import models
+# other apps imports;
 from apps.authentication.models import User
+# current app imports;
 from .validators import validate_only_number_field
 
 
@@ -50,12 +53,17 @@ class Employee(models.Model):
         return f'{self.name}'
 
     def check_null_fields(self):
+        ''' Checks if the object fields are filled. 
+        :return - boolean | None
+        '''
         if self.name and self.tel and self.scholarship and self.role:
             return True
         
         return None
     
     def set_fields_to_test(self):
+        ''' Set profile fields automatically to some tests be able to be executed. '''
+
         self.name = 'test'
         self.age = 20
         self.tel = "11995588963"

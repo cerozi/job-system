@@ -1,7 +1,10 @@
+# django built-in imports;
 from django import forms
+
+# current app imports;
 from .models import Employee, Company
 
-
+# custom form for employee profile;
 class EmployeeProfileForm(forms.ModelForm):
     class Meta:
         model = Employee
@@ -19,6 +22,7 @@ class EmployeeProfileForm(forms.ModelForm):
             'about_me': forms.TextInput(attrs={"class": "form-control", "placeholder": "Descreva-te."})
         }
 
+# custom form for company profile;
 class CompanyProfileForm(forms.ModelForm):
     class Meta:
         model = Company

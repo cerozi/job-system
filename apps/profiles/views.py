@@ -1,11 +1,18 @@
-from django.shortcuts import render, redirect
-
-from apps.profiles.models import Employee, Company
-from .forms import EmployeeProfileForm, CompanyProfileForm
+# django built-in imports;
+from django.shortcuts import redirect, render
 from django.urls import reverse
+
+# other apps imports;
 from apps.authentication.forms import CustomUserRegisterForm
+from apps.profiles.models import Company, Employee
+
+# current app imports;
+from .forms import CompanyProfileForm, EmployeeProfileForm
+
 
 def profile(request):
+    ''' Renders request user profile. '''
+
     if request.user.is_company:
         template_name = 'company_profile'
         company = Company.objects.get(user=request.user)
