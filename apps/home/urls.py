@@ -1,4 +1,7 @@
+# django built-in imports;
 from django.urls import path
+
+# current app imports;
 from .views import employee_home, company_home
 
 urlpatterns = [

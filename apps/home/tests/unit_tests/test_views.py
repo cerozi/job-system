@@ -1,7 +1,11 @@
+# other apps imports;
+from apps.authentication.models import User
+
+# built-in django imports;
 from django.test import TestCase
 from django.test.client import Client
-from apps.authentication.models import User
 from django.urls import reverse
+
 
 class HomeViewTests(TestCase):
 
