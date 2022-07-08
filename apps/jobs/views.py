@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.core import serializers
 
 # other apps imports;
 from apps.apply.models import Apply
@@ -144,7 +145,7 @@ def total_jobs(request):
     job_qs = Job.objects.filter(closed=False).order_by('-created') # queryset with all the jobs;
     employee_obj = Employee.objects.get(user=request.user)
     user_applications = Apply.objects.filter(employee=employee_obj)
-     # list with all the jobs that te request user applied;
+    # list with all the jobs that the request user applied;
     user_applications_job = [application.job for application in user_applications]
 
     
@@ -157,10 +158,37 @@ def total_jobs(request):
 
 @login_required
 def search_job(request):
-    ''' Gets all the jobs that contais the search
+    ''' Gets all the jobs that contains the search param
     :param - job_title: str 
     '''
-    
-    job_title = request.GET.get('job_title')
-    job_qs = Job.objects.filter(title__contains=job_title).order_by('-created')
-    return render(request, 'home/search_job.html', {"job_title": job_title, "job_qs": job_qs})
+
+    if request.method == 'POST':
+        ''' On POST method, does a queryset with all the jobs that starts with the given job title
+        and stores it on the user session, so the queryset can be accessed in the next
+        GET method requests to be paginated. '''
+
+        job_title = request.POST.get('job_title')
+        job_qs = Job.objects.filter(title__istartswith=job_title).order_by('-created')
+        job_serializer = serializers.serialize("json", job_qs) # turns the queryset into json
+        request.session['job_qs'] = job_serializer # stores it on the user session
+        request.session['job_title'] = job_title
+
+    if 'job_qs' in request.session: # if a job queryset exists in the session, it means the user did the search
+        job_session = request.session['job_qs']
+        job_list = []
+
+        # turns the json list to python objects and appends it to the job_list, so it can be later paginated
+        for obj in serializers.deserialize("json", job_session):
+            job_list.append(obj.object)
+
+        # pagination with the job queryset stored in the user session
+        job_paginator = Paginator(job_list, 4)
+        page = request.GET.get('page')
+        jobs = job_paginator.get_page(page)
+        job_title = request.session['job_title']
+
+    else:                                                            # if a user didn't search anything and try to access
+        user_str = request.user.is_company_or_employee()             # the view, he will be redirected
+        return redirect(reverse(f'{user_str}-home'))
+
+    return render(request, 'home/search_job.html', {"job_title": job_title, "job_qs": jobs, "job_paginator": job_paginator})
