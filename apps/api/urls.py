@@ -5,6 +5,6 @@ from django.urls import path
 from .views import ApplicationsMonthAV, JobsMonthAv
 
 urlpatterns = [
-    path('api/applications', ApplicationsMonthAV.as_view(), name='api-applications'),
-    path('api/jobs', JobsMonthAv.as_view(), name='api-jobs')
+    path('dashboard/api/applications', ApplicationsMonthAV.as_view(), name='api-applications'),
+    path('dashboard/api/jobs', JobsMonthAv.as_view(), name='api-jobs')
 ]
