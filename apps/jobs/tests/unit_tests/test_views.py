@@ -108,7 +108,7 @@ class JobViewTests(TestCase):
         self.assertTemplateUsed(response, 'home/all_jobs.html')
         
     def test_search_job(self):
-        response = self.client.get(reverse('search-job'), data={'job_title': 'tes'})
+        response = self.client.post(reverse('search-job'), data={'job_title': 'tes'})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home/search_job.html')
-        self.assertEqual(len(response.context['job_qs'].all()), 1)
+        self.assertEqual(response.context['job_title'], 'tes')
