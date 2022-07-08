@@ -1,6 +1,7 @@
 import os
 from decouple import config
 from unipath import Path
+import django_on_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).parent
@@ -132,6 +133,10 @@ LOGIN_URL = 'login'
 
 MEDIA_ROOT = os.path.join(CORE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+
+# config django app for heroku
+django_on_heroku.settings(locals())
 
 #############################################################
 #############################################################
