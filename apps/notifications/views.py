@@ -13,4 +13,5 @@ def delete_all_notifications(request):
     for notification in notifications:
         notification.delete() # deletes the notification object;
 
-    return redirect(reverse('employee-home'))
+    user_str = request.user.is_company_or_employee()
+    return redirect(reverse(f'{user_str}-home'))

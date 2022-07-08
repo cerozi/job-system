@@ -14,7 +14,7 @@ from apps.jobs.models import Job
 def company_home(request):
     ''' Company user home. '''
 
-    jobs = Job.get_company_active_jobs(user=request.user)[:5]
+    jobs = Job.get_company_active_jobs(user=request.user)[:4]
 
     return render(request, 'home/company_home.html', {"jobs": jobs})
 

@@ -45,7 +45,8 @@ def login(request):
             if user:
                 # logs the user;
                 log_user(request, user)
-                return redirect(reverse('employee-home'))
+                user_str = request.user.is_company_or_employee()
+                return redirect(reverse(f'{user_str}-home'))
         
         status_code = 422
         
