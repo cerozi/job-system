@@ -16,7 +16,7 @@ def create_profile(sender, instance, created, **kwargs):
         if instance.is_company or instance.is_staff:
             instance.is_company = True
             instance.save()
-            Company.objects.create(user=instance)
+            Company.objects.create(user=instance, name=instance.username)
         else:
             Employee.objects.create(user=instance)
 
