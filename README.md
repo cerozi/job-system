@@ -16,10 +16,16 @@ Employee user credentials:
 
 To run the project on your local machine, you need to have Docker Desktop installed. Once you have it, at the root of the project execute the following command on CMD:
 ```
-docker-compose up --build
+docker-compose up --build -d
+```
+```
+docker-compose exec web python manage.py migrate
 ```
 
-Now, the project can be found at your 0.0.0.0:8000.
+Now, the project can be found at your 0.0.0.0:8000. To see the logs, get the container ID and then write:
+```
+docker logs --follow [container_id]
+```
 
 
 
