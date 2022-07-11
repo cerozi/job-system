@@ -5,11 +5,12 @@ A web application that simulates a job employment site. Made using Django 3.2, P
 Deployed project: https://jobs-ti-project.herokuapp.com/
 
 Company user credentials:
-   1. email: cerozi@gmail.com
-   2. password: testuser123
+   * email: cerozi@gmail.com
+   * password: testuser123
+
 Employee user credentials:
-   1. email: math@gmail.com
-   2. password: testuser123
+   * email: math@gmail.com
+   * password: testuser123
 
 <hr></hr>
 
