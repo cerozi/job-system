@@ -21,7 +21,5 @@ docker-compose up --build
 
 Now, the project can be found at your 0.0.0.0:8000.
 
-
-
-
+![jobs](https://user-images.githubusercontent.com/99985350/178170343-adefe2f4-a8c9-4e8c-b89e-c5c0cd19b0e6.png)
 
