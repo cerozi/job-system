@@ -33,11 +33,11 @@ class ProfilesViewTests(TestCase):
             'description': 'Empresa de tecnologia/arquitetura web. '
         }
 
-        self.assertIsNone(self.user_company.company.name)
+        self.assertIsNone(self.user_company.company.address)
         response = self.client.post(reverse('profile'), data=data)
         self.user_company.company.refresh_from_db()
         self.assertEqual(response.status_code, 302)
-        self.assertIsNotNone(self.user_company.company.name)
+        self.assertIsNotNone(self.user_company.company.address)
 
     def test_company_profile_post_method_with_invalid_data(self):
         self.client.login(email=self.user_company.email, password='userpass123')
@@ -57,11 +57,11 @@ class ProfilesViewTests(TestCase):
             'about_me': 'Python Dev.'
         }
 
-        self.assertIsNone(self.user_employee.employee.name)
+        self.assertIsNone(self.user_employee.employee.address)
         response = self.client.post(reverse('profile'), data=data)
         self.user_employee.employee.refresh_from_db()
         self.assertEqual(response.status_code, 302)
-        self.assertIsNotNone(self.user_employee.employee.name)
+        self.assertIsNotNone(self.user_employee.employee.address)
     
     def test_employee_profile_post_method_with_invalid_data(self):
         self.client.login(email=self.user_employee.email, password='userpass123')
